@@ -1,4 +1,4 @@
-FROM registry.redhat.io/rhel8/mariadb-105
+FROM mariadb:10.5
 
 # needed for intialization
 ENV MYSQL_USER=user
