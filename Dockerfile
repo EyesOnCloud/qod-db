@@ -1,21 +1,19 @@
+# Use public MariaDB 10.5 image
 FROM mariadb:10.5
 
-# needed for intialization
+# needed for initialization
 ENV MYSQL_USER=user
 ENV MYSQL_PASSWORD=pass
 ENV MYSQL_DATABASE=qod
 
 # Copy our sql scripts
-COPY 1_createdb.sql /tmp/
-COPY 2_authors.sql /tmp/
-COPY 3_genres.sql /tmp/
-COPY 4_quotes_sm.sql /tmp/
+COPY 1_createdb.sql /docker-entrypoint-initdb.d/
+COPY 2_authors.sql /docker-entrypoint-initdb.d/
+COPY 3_genres.sql /docker-entrypoint-initdb.d/
+COPY 4_quotes_sm.sql /docker-entrypoint-initdb.d/
 
-# Put our script to create db and tables in the init path
-COPY run.sh /usr/share/container-scripts/mysql/init/
+# Copy custom init script
+COPY run.sh /docker-entrypoint-initdb.d/
 
-# Expose the correct port for MariaDB
+# Expose the MariaDB port
 EXPOSE 3306
-
-# Start the server
-CMD ["run-mysqld"]
