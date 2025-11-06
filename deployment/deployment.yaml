@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: qod-db
-  labels:
-    app: qod-db
 spec:
   replicas: 1
   selector:
@@ -16,12 +14,15 @@ spec:
     spec:
       containers:
         - name: qod-db
-          image: docker.io/ibmicpcoc/qod-db
-          imagePullPolicy: Always
+          image: image-registry.openshift-image-registry.svc:5000/eoc-project/qod-db:latest
           ports:
-            - name: mysql
-              containerPort: 3306
-              protocol: TCP
+            - containerPort: 3306
           env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: root
+            - name: MARIADB_ROOT_PASSWORD
+              value: root123
+            - name: MARIADB_DATABASE
+              value: qod
+            - name: MARIADB_USER
+              value: user
+            - name: MARIADB_PASSWORD
+              value: pass
